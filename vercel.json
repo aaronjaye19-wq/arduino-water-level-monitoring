@@ -1,0 +1,10 @@
+{
+  "framework": "laravel",
+  "env": {
+    "APP_KEY": {
+      "description": "Laravel APP_KEY",
+      "required": true,
+      "value": "base64:${RANDOM_BYTES_32}"
+    }
+  }
+}
