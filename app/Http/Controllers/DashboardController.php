@@ -25,7 +25,6 @@ class DashboardController extends Controller
      */
     public function adminDashboard(): View
     {
-        $this->authorize('isAdmin');
         return view('dashboard.admin-dashboard', ['user' => auth()->user()]);
     }
 
@@ -34,7 +33,6 @@ class DashboardController extends Controller
      */
     public function userDashboard(): View
     {
-        $this->authorize('isUser');
         return view('dashboard.user-dashboard', ['user' => auth()->user()]);
     }
 }
