@@ -2,12 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 
 // Add this line at the top — this is the "import"
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
-// Dashboard page
-Route::view('/dashboard', 'dashboard');
+// Authentication Routes
+Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+
+Route::post('/logout', [LogoutController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Dashboard page - Protected by auth middleware
+Route::view('/dashboard', 'dashboard')->middleware('auth');
 
 // Arduino POST route WITHOUT CSRF
 Route::post('/api/sensor', function(Request $request){

@@ -3,14 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <title>Water Sensor Dashboard</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 <style>
     body {
-        font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-        background: #f0f2f5;
+        font-family: 'Instrument Sans', 'Segoe UI', Tahoma, Verdana, sans-serif;
+        background: #ffffff;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 40px;
+    }
+
+    .header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        max-width: 500px;
+    }
+
+    .header h1 {
+        margin: 0;
+    }
+
+    .logout-form {
+        display: inline;
+    }
+
+    .logout-btn {
+        background-color: #000000;
+        color: #ffffff;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        font-family: 'Instrument Sans', sans-serif;
+    }
+
+    .logout-btn:hover {
+        background-color: #333333;
     }
 
     h1 {
@@ -177,7 +213,13 @@
 </head>
 <body>
 
-<h1>💧 Water Sensor Dashboard</h1>
+<div class="header">
+    <h1>💧 Water Sensor Dashboard</h1>
+    <form method="POST" action="{{ route('logout') }}" class="logout-form">
+        @csrf
+        <button type="submit" class="logout-btn">Log Out</button>
+    </form>
+</div>
 
 <div class="dashboard-container">
     <div class="label-group">
