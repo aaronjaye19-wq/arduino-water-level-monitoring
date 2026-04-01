@@ -8,7 +8,17 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
 // Public routes
 Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
     return view('welcome');
+});
+
+// Clear cache for development (remove in production)
+Route::get('/clear-cache', function () {
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    return 'Cache cleared successfully!';
 });
 
 // Authentication routes
@@ -69,4 +79,68 @@ Route::get('/api/latest-sensor', function(){
     return response()->json(
         cache('latest_sensor', ['sensor'=>0,'green'=>0,'yellow'=>0,'red'=>0])
     );
+});
+
+// Setup routes for development
+Route::prefix('setup')->group(function () {
+    Route::get('migrate', function () {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Database migrations completed successfully!',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Migration failed: ' . $e->getMessage(),
+            ], 500);
+        }
+    });
+
+    Route::get('seed-admin', function () {
+        try {
+            $admin = \App\Models\User::firstOrCreate(
+                ['email' => 'admin@example.com'],
+                [
+                    'name' => 'Admin User',
+                    'email' => 'admin@example.com',
+                    'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+                    'role' => 'admin',
+                    'email_verified_at' => now(),
+                    'mfa_verified' => true,
+                ]
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Admin user created successfully!',
+                'email' => 'admin@example.com',
+                'password' => 'password123',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create admin: ' . $e->getMessage(),
+            ], 500);
+        }
+    });
+
+    Route::get('clear-cache-all', function () {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('cache:clear');
+            \Illuminate\Support\Facades\Artisan::call('view:clear');
+            \Illuminate\Support\Facades\Artisan::call('route:clear');
+            \Illuminate\Support\Facades\Artisan::call('config:clear');
+            return response()->json([
+                'success' => true,
+                'message' => 'All caches cleared successfully!',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to clear caches: ' . $e->getMessage(),
+            ], 500);
+        }
+    });
 });
