@@ -6,81 +6,199 @@
         <title>Login - {{ config('app.name', 'Laravel') }}</title>
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @else
-            <style>
-                /*! tailwindcss v4.0.7 | MIT License | https://tailwindcss.com */
-                @layer theme{:root,:host{--font-sans:'Instrument Sans',ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-serif:ui-serif,Georgia,Cambria,"Times New Roman",Times,serif;--font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}}
-                @import 'tailwindcss';
-            </style>
-        @endif
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                background-color: #ffffff;
+                color: #000000;
+                line-height: 1.5;
+            }
+
+            .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+
+            .form-wrapper {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .header {
+                margin-bottom: 32px;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 28px;
+                font-weight: 600;
+                color: #000000;
+                margin-bottom: 8px;
+            }
+
+            .header p {
+                font-size: 14px;
+                color: #666666;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+            }
+
+            label {
+                font-size: 13px;
+                font-weight: 500;
+                color: #000000;
+                margin-bottom: 8px;
+                display: block;
+            }
+
+            input[type="email"],
+            input[type="password"] {
+                width: 100%;
+                padding: 10px 12px;
+                border: 1px solid #cccccc;
+                border-radius: 4px;
+                background-color: #ffffff;
+                color: #000000;
+                font-size: 14px;
+                font-family: inherit;
+                transition: border-color 0.2s, box-shadow 0.2s;
+            }
+
+            input[type="email"]:focus,
+            input[type="password"]:focus {
+                outline: none;
+                border-color: #666666;
+                box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+            }
+
+            input.error {
+                border-color: #dc2626;
+            }
+
+            input::placeholder {
+                color: #999999;
+            }
+
+            .error-message {
+                font-size: 12px;
+                color: #dc2626;
+                margin-top: 4px;
+            }
+
+            button[type="submit"] {
+                background-color: #000000;
+                color: #ffffff;
+                border: none;
+                padding: 10px 16px;
+                border-radius: 4px;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                margin-top: 12px;
+                font-family: inherit;
+                transition: background-color 0.2s;
+            }
+
+            button[type="submit"]:hover {
+                background-color: #333333;
+            }
+
+            button[type="submit"]:active {
+                background-color: #1a1a1a;
+            }
+
+            .footer {
+                margin-top: 24px;
+                text-align: center;
+                font-size: 13px;
+                color: #666666;
+            }
+
+            .footer a {
+                color: #000000;
+                text-decoration: none;
+                font-weight: 500;
+                transition: opacity 0.2s;
+            }
+
+            .footer a:hover {
+                opacity: 0.7;
+                text-decoration: underline;
+            }
+        </style>
     </head>
-    <body class="bg-white text-black font-sans">
-        <div class="min-h-screen flex items-center justify-center px-4 py-6">
-            <div class="w-full max-w-md">
+    <body>
+        <div class="container">
+            <div class="form-wrapper">
                 <!-- Header -->
-                <div class="mb-8">
-                    <h1 class="text-3xl font-semibold text-black mb-2">Welcome Back</h1>
-                    <p class="text-gray-600">Log in to your account</p>
+                <div class="header">
+                    <h1>Welcome Back</h1>
+                    <p>Log in to your account</p>
                 </div>
 
                 <!-- Form -->
-                <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                <form method="POST" action="{{ route('login') }}">
                     @csrf
 
                     <!-- Email Field -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-black mb-2">
-                            Email Address
-                        </label>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
                         <input
                             type="email"
                             id="email"
                             name="email"
                             value="{{ old('email') }}"
-                            class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-black focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-400 @error('email') border-red-500 @enderror"
                             placeholder="Enter your email"
+                            @error('email') class="error" @enderror
                             autofocus
                         >
                         @error('email')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="error-message">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Password Field -->
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-black mb-2">
-                            Password
-                        </label>
+                    <div class="form-group">
+                        <label for="password">Password</label>
                         <input
                             type="password"
                             id="password"
                             name="password"
-                            class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-black focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-400 @error('password') border-red-500 @enderror"
                             placeholder="Enter your password"
+                            @error('password') class="error" @enderror
                         >
                         @error('password')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="error-message">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Submit Button -->
-                    <button
-                        type="submit"
-                        class="w-full bg-black text-white py-2 px-4 rounded font-medium hover:bg-gray-900 transition-colors duration-200 mt-6"
-                    >
-                        Log In
-                    </button>
+                    <button type="submit">Log In</button>
                 </form>
 
                 <!-- Register Link -->
-                <p class="mt-6 text-center text-gray-600">
-                    Don&apos;t have an account?
-                    <a href="{{ route('register') }}" class="text-black font-medium hover:underline">
-                        Create one
-                    </a>
-                </p>
+                <div class="footer">
+                    Don't have an account?
+                    <a href="{{ route('register') }}">Create one</a>
+                </div>
             </div>
         </div>
     </body>
