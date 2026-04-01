@@ -28,8 +28,9 @@ class RegisterController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        Auth::login($user);
+        // Send email verification notification
+        $user->sendEmailVerificationNotification();
 
-        return redirect('/dashboard');
+        return redirect('/login')->with('message', 'Registration successful! Please check your email to verify your account.');
     }
 }

@@ -177,7 +177,10 @@
 
                     <!-- Password Field -->
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <label for="password">Password</label>
+                            <a href="{{ route('password.request') }}" style="font-size: 12px; color: #666666; text-decoration: none; font-weight: 500;">Forgot?</a>
+                        </div>
                         <input
                             type="password"
                             id="password"
