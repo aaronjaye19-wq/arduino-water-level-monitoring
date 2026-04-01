@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
-// Public routes
+// Public routes - redirect to login
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('dashboard');
     }
-    return view('welcome');
+    return redirect()->route('auth.login');
 });
 
 // Clear cache for development (remove in production)
