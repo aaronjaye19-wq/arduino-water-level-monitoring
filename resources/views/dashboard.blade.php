@@ -4,6 +4,28 @@
 <meta charset="UTF-8">
 <title>Water Sensor Dashboard</title>
 <style>
+    .navbar {
+        background-color: #1a3a5a;
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+    .navbar h2 { margin: 0; }
+    .navbar .logout-btn {
+        background-color: #ff4444;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .navbar .logout-btn:hover { background-color: #cc0000; }
+
     body {
         font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
         background: #f0f2f5;
@@ -177,7 +199,13 @@
 </head>
 <body>
 
-<h1>💧 Water Sensor Dashboard</h1>
+<div class="navbar">
+    <h2>💧 Water Sensor Dashboard</h2>
+    <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+        @csrf
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
 
 <div class="dashboard-container">
     <div class="label-group">

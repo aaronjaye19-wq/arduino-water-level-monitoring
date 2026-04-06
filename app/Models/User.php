@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_verified',
     ];
 
     /**
@@ -43,6 +44,17 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_verified' => 'boolean',
         ];
+    }
+
+    public function emailVerificationTokens()
+    {
+        return $this->hasMany(EmailVerificationToken::class);
+    }
+
+    public function passwordResetTokens()
+    {
+        return $this->hasMany(PasswordResetTokenDetail::class);
     }
 }
