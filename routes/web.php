@@ -5,9 +5,20 @@ use Illuminate\Http\Request;
 
 // Add this line at the top — this is the "import"
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\EmailVerificationController;
 
-// Dashboard page
-Route::view('/dashboard', 'dashboard');
+// Registration routes
+Route::get('/register', [RegisterController::class, 'showForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+// Email verification route
+Route::get('/verify-email/{token}', [EmailVerificationController::class, 'verify'])->name('verify-email');
+
+// Dashboard page (protected by EnsureEmailIsVerified middleware)
+Route::middleware(['App\Http\Middleware\EnsureEmailIsVerified'])->group(function () {
+    Route::view('/dashboard', 'dashboard');
+});
 
 // Arduino POST route WITHOUT CSRF
 Route::post('/api/sensor', function(Request $request){
