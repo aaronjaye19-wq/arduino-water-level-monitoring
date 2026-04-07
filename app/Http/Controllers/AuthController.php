@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\EmailVerificationToken;
 use App\Models\PasswordResetTokenDetail;
+use App\Models\MfaVerificationToken;
+use App\Models\UserMfaSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -88,8 +90,22 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'Password is incorrect.']);
         }
 
+        // If user has MFA enabled, store user_id in session and redirect to MFA verification
+        if ($user->mfa_enabled) {
+            session(['mfa_user_id' => $user->id]);
+            // Generate MFA code
+            $mfaSetting = $user->mfaSetting;
+            if ($mfaSetting) {
+                $code = $mfaSetting->generateTotpCode();
+                // Store the code for verification (in production, you'd send this via email/SMS)
+                session(['mfa_code_temp' => $code]);
+            }
+            return redirect('/mfa/verify');
+        }
+
+        // Normal login without MFA
         Auth::login($user);
-        return redirect()->route('dashboard')->with('success', 'Login successful!');
+        return redirect($user->is_admin ? route('admin.dashboard') : route('dashboard'))->with('success', 'Login successful!');
     }
 
     public function logout()
@@ -159,5 +175,120 @@ class AuthController extends Controller
         $resetToken->delete();
 
         return redirect()->route('login')->with('success', 'Password has been reset. Please login with your new password.');
+    }
+
+    /**
+     * Show MFA verification form
+     */
+    public function showMfaVerify()
+    {
+        $mfaUserId = session('mfa_user_id');
+        if (!$mfaUserId) {
+            return redirect('/login')->with('error', 'Session expired. Please login again.');
+        }
+
+        return view('auth.mfa-verify');
+    }
+
+    /**
+     * Verify MFA code
+     */
+    public function verifyMfa(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string|size:6',
+        ]);
+
+        $mfaUserId = session('mfa_user_id');
+        if (!$mfaUserId) {
+            return redirect('/login')->with('error', 'Session expired. Please login again.');
+        }
+
+        $user = User::findOrFail($mfaUserId);
+        $mfaSetting = $user->mfaSetting;
+
+        if (!$mfaSetting || !$mfaSetting->verifyCode($request->code)) {
+            return back()->withErrors(['code' => 'Invalid verification code.']);
+        }
+
+        // Clear MFA session data and set verified flag
+        session()->forget(['mfa_user_id', 'mfa_code_temp']);
+        session(['mfa_verified' => true]);
+
+        // Log the user in
+        Auth::login($user);
+
+        return redirect($user->is_admin ? route('admin.dashboard') : route('dashboard'))->with('success', 'Login successful!');
+    }
+
+    /**
+     * Setup MFA for user
+     */
+    public function showSetupMfa()
+    {
+        $user = auth()->user();
+        
+        // Check if user already has MFA setup
+        if ($user->mfaSetting && $user->mfaSetting->is_enabled) {
+            return redirect()->route('dashboard')->with('info', 'MFA is already enabled for your account.');
+        }
+
+        // Generate new secret
+        $secret = base64_encode(random_bytes(32));
+        
+        return view('auth.setup-mfa', ['secret' => $secret]);
+    }
+
+    /**
+     * Enable MFA for user
+     */
+    public function enableMfa(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string|size:6',
+            'secret' => 'required|string',
+        ]);
+
+        $user = auth()->user();
+
+        // Create or update MFA setting
+        $mfaSetting = UserMfaSetting::updateOrCreate(
+            ['user_id' => $user->id],
+            ['secret' => $request->secret, 'is_enabled' => true]
+        );
+
+        // Verify the code before enabling
+        if (!$mfaSetting->verifyCode($request->code)) {
+            return back()->withErrors(['code' => 'Invalid verification code. Please try again.']);
+        }
+
+        // Enable MFA on user
+        $user->update(['mfa_enabled' => true]);
+
+        return redirect()->route('dashboard')->with('success', 'Multi-factor authentication has been enabled successfully!');
+    }
+
+    /**
+     * Disable MFA for user
+     */
+    public function disableMfa(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string',
+        ]);
+
+        $user = auth()->user();
+
+        // Verify password
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Incorrect password.']);
+        }
+
+        $user->update(['mfa_enabled' => false]);
+        if ($user->mfaSetting) {
+            $user->mfaSetting->update(['is_enabled' => false]);
+        }
+
+        return redirect()->route('dashboard')->with('success', 'Multi-factor authentication has been disabled.');
     }
 }
