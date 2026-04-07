@@ -7,8 +7,8 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,16 +18,19 @@
         .container {
             background: white;
             padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            max-width: 420px;
             width: 100%;
         }
         h1 {
-            color: #333;
+            color: #000;
             margin-bottom: 30px;
             text-align: center;
             font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
         .form-group {
             margin-bottom: 20px;
@@ -35,64 +38,71 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
+            color: #333;
             font-weight: 500;
+            font-size: 14px;
         }
         input, textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 11px 14px;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
             font-size: 14px;
-            transition: border-color 0.3s;
+            background: #fafafa;
+            transition: all 0.2s;
         }
         input:focus, textarea:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 5px rgba(102, 126, 234, 0.1);
+            border-color: #000;
+            background: white;
+            box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.05);
         }
         .error-message {
-            color: #dc3545;
-            font-size: 13px;
-            margin-top: 5px;
+            color: #d32f2f;
+            font-size: 12px;
+            margin-top: 6px;
         }
         .errors { margin-bottom: 20px; }
-        .errors li { color: #dc3545; margin-bottom: 5px; }
+        .errors li { color: #d32f2f; margin-bottom: 8px; font-size: 14px; }
         button {
             width: 100%;
             padding: 12px;
-            background-color: #667eea;
+            background-color: #000;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.2s;
             margin-top: 10px;
         }
         button:hover {
-            background-color: #5568d3;
+            background-color: #222;
+        }
+        button:active {
+            transform: scale(0.99);
         }
         .success {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
+            background-color: #f1f8f4;
+            border: 1px solid #c8e6c9;
+            color: #2e7d32;
             padding: 12px;
-            border-radius: 5px;
+            border-radius: 6px;
             margin-bottom: 20px;
+            font-size: 14px;
         }
         .link {
             text-align: center;
             margin-top: 20px;
         }
         .link a {
-            color: #667eea;
+            color: #666;
             text-decoration: none;
             font-weight: 500;
         }
         .link a:hover {
-            text-decoration: underline;
+            color: #000;
         }
     </style>
 </head>

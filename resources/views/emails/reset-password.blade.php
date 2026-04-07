@@ -29,15 +29,17 @@
             overflow: hidden;
         }
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #000;
             color: white;
             padding: 30px 20px;
             text-align: center;
+            border-bottom: 1px solid #e5e5e5;
         }
         .header h1 {
             font-size: 24px;
             font-weight: 600;
             margin: 0;
+            letter-spacing: -0.5px;
         }
         .content {
             padding: 40px 30px;
@@ -45,13 +47,14 @@
         .greeting {
             font-size: 16px;
             margin-bottom: 20px;
-            color: #333;
+            color: #000;
+            font-weight: 500;
         }
         .message {
             font-size: 15px;
             line-height: 1.8;
             margin-bottom: 30px;
-            color: #555;
+            color: #666;
         }
         .button-wrapper {
             text-align: center;
@@ -60,25 +63,24 @@
         .button {
             display: inline-block;
             padding: 14px 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #000;
             color: white;
             text-decoration: none;
             border-radius: 6px;
             font-weight: 600;
             font-size: 16px;
-            transition: transform 0.2s;
+            transition: all 0.2s;
             border: none;
             cursor: pointer;
             text-align: center;
         }
         .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            background: #222;
         }
         .link-section {
             margin-top: 30px;
             padding-top: 20px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #e5e5e5;
         }
         .link-label {
             font-size: 13px;
@@ -89,20 +91,20 @@
         .link-text {
             font-size: 13px;
             word-break: break-all;
-            background-color: #f9f9f9;
+            background-color: #f5f5f5;
             padding: 12px;
-            border-radius: 4px;
-            border-left: 3px solid #667eea;
-            color: #667eea;
+            border-radius: 6px;
+            border-left: 3px solid #000;
+            color: #333;
         }
         .link-text a {
-            color: #667eea;
+            color: #000;
             text-decoration: none;
         }
         .footer {
-            background-color: #f9f9f9;
+            background-color: #fafafa;
             padding: 20px 30px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #e5e5e5;
             text-align: center;
         }
         .footer-text {
@@ -112,13 +114,13 @@
             line-height: 1.6;
         }
         .warning {
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
+            background-color: #f5f5f5;
+            border-left: 4px solid #000;
             padding: 12px;
-            border-radius: 4px;
+            border-radius: 6px;
             margin-top: 20px;
             font-size: 13px;
-            color: #856404;
+            color: #333;
         }
     </style>
 </head>
