@@ -1,26 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Your Password</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
-        .container { max-width: 600px; margin: 20px auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        h2 { color: #333; }
-        p { color: #666; line-height: 1.6; }
-        .button { display: inline-block; margin-top: 20px; padding: 12px 30px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; }
-        .button:hover { background-color: #218838; }
-        .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #999; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            color: #333;
+        }
+        .wrapper {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .message {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        .button-wrapper {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .link-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .link-label {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .link-text {
+            font-size: 13px;
+            word-break: break-all;
+            background-color: #f9f9f9;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #667eea;
+            color: #667eea;
+        }
+        .link-text a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .footer {
+            background-color: #f9f9f9;
+            padding: 20px 30px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+        .footer-text {
+            font-size: 12px;
+            color: #999;
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #856404;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Hello {{ $user->name }},</h2>
-        <p>We received a request to reset your password. Click the button below to set a new password.</p>
-        <a href="{{ $resetUrl }}" class="button">Reset Password</a>
-        <p>Or copy and paste this link in your browser:</p>
-        <p><small>{{ $resetUrl }}</small></p>
-        <div class="footer">
-            <p>This link will expire in 10 minutes.</p>
-            <p>If you did not request this, please ignore this email.</p>
+    <div class="wrapper">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <h1>Password Reset</h1>
+            </div>
+
+            <!-- Main Content -->
+            <div class="content">
+                <p class="greeting">Hello <strong>{{ $user->name }}</strong>,</p>
+
+                <p class="message">
+                    We received a request to reset your password for your account. Click the button below to create a new password.
+                </p>
+
+                <!-- Button -->
+                <div class="button-wrapper">
+                    <a href="{{ $resetUrl }}" class="button">Reset Password</a>
+                </div>
+
+                <!-- Backup Link -->
+                <div class="link-section">
+                    <span class="link-label">Or copy and paste this link in your browser:</span>
+                    <div class="link-text">
+                        <a href="{{ $resetUrl }}">{{ $resetUrl }}</a>
+                    </div>
+                </div>
+
+                <!-- Warning -->
+                <div class="warning">
+                    <strong>Important:</strong> This password reset link will expire in <strong>10 minutes</strong>. If you did not request this email, please ignore it and your password will remain unchanged.
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p class="footer-text">
+                    &copy; 2024 Water Level Monitoring System. All rights reserved.
+                </p>
+                <p class="footer-text">
+                    This is an automated message, please do not reply to this email.
+                </p>
+            </div>
         </div>
     </div>
 </body>

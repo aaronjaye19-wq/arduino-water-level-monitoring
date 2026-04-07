@@ -1,26 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
-        .container { max-width: 600px; margin: 20px auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        h2 { color: #333; }
-        p { color: #666; line-height: 1.6; }
-        .button { display: inline-block; margin-top: 20px; padding: 12px 30px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; }
-        .button:hover { background-color: #0056b3; }
-        .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #999; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            color: #333;
+        }
+        .wrapper {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .message {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        .button-wrapper {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .link-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .link-label {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .link-text {
+            font-size: 13px;
+            word-break: break-all;
+            background-color: #f9f9f9;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #667eea;
+            color: #667eea;
+        }
+        .link-text a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .footer {
+            background-color: #f9f9f9;
+            padding: 20px 30px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+        .footer-text {
+            font-size: 12px;
+            color: #999;
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #1565c0;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Hello {{ $user->name }},</h2>
-        <p>Thank you for registering! Please verify your email address by clicking the button below.</p>
-        <a href="{{ $verificationUrl }}" class="button">Verify Email</a>
-        <p>Or copy and paste this link in your browser:</p>
-        <p><small>{{ $verificationUrl }}</small></p>
-        <div class="footer">
-            <p>This link will expire in 24 hours.</p>
-            <p>If you did not create this account, please ignore this email.</p>
+    <div class="wrapper">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <h1>Email Verification</h1>
+            </div>
+
+            <!-- Main Content -->
+            <div class="content">
+                <p class="greeting">Hello <strong>{{ $user->name }}</strong>,</p>
+
+                <p class="message">
+                    Welcome to Water Level Monitoring System! To complete your registration and access your dashboard, please verify your email address by clicking the button below.
+                </p>
+
+                <!-- Button -->
+                <div class="button-wrapper">
+                    <a href="{{ $verificationUrl }}" class="button">Verify Email Address</a>
+                </div>
+
+                <!-- Backup Link -->
+                <div class="link-section">
+                    <span class="link-label">Or copy and paste this link in your browser:</span>
+                    <div class="link-text">
+                        <a href="{{ $verificationUrl }}">{{ $verificationUrl }}</a>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="info-box">
+                    <strong>Note:</strong> This verification link will expire in 24 hours. If you did not create this account, please ignore this email.
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p class="footer-text">
+                    &copy; 2024 Water Level Monitoring System. All rights reserved.
+                </p>
+                <p class="footer-text">
+                    This is an automated message, please do not reply to this email.
+                </p>
+            </div>
         </div>
     </div>
 </body>
