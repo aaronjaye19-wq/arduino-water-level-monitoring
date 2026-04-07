@@ -134,7 +134,7 @@
 
             <!-- Main Content -->
             <div class="content">
-                <p class="greeting">Hello <strong>{{ $user->name }}</strong>,</p>
+                <p class="greeting">Hello <strong>{!! $user->name !!}</strong>,</p>
 
                 <p class="message">
                     We received a request to reset your password for your account. Click the button below to create a new password.
@@ -142,14 +142,14 @@
 
                 <!-- Button -->
                 <div class="button-wrapper">
-                    <a href="{{ $resetUrl }}" class="button">Reset Password</a>
+                    <a href="{!! $resetUrl !!}" class="button">Reset Password</a>
                 </div>
 
                 <!-- Backup Link -->
                 <div class="link-section">
                     <span class="link-label">Or copy and paste this link in your browser:</span>
                     <div class="link-text">
-                        <a href="{{ $resetUrl }}">{{ $resetUrl }}</a>
+                        <a href="{!! $resetUrl !!}">{!! $resetUrl !!}</a>
                     </div>
                 </div>
 

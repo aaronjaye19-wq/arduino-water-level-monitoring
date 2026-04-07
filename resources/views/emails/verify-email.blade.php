@@ -134,7 +134,7 @@
 
             <!-- Main Content -->
             <div class="content">
-                <p class="greeting">Hello <strong>{{ $user->name }}</strong>,</p>
+                <p class="greeting">Hello <strong>{!! $user->name !!}</strong>,</p>
 
                 <p class="message">
                     Welcome to Water Level Monitoring System! To complete your registration and access your dashboard, please verify your email address by clicking the button below.
@@ -142,14 +142,14 @@
 
                 <!-- Button -->
                 <div class="button-wrapper">
-                    <a href="{{ $verificationUrl }}" class="button">Verify Email Address</a>
+                    <a href="{!! $verificationUrl !!}" class="button">Verify Email Address</a>
                 </div>
 
                 <!-- Backup Link -->
                 <div class="link-section">
                     <span class="link-label">Or copy and paste this link in your browser:</span>
                     <div class="link-text">
-                        <a href="{{ $verificationUrl }}">{{ $verificationUrl }}</a>
+                        <a href="{!! $verificationUrl !!}">{!! $verificationUrl !!}</a>
                     </div>
                 </div>
 
